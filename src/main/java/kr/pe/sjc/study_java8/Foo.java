@@ -1,10 +1,14 @@
 package kr.pe.sjc.study_java8;
 
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
+
 public class Foo {
     public static void main(String[] args) {
-//      순수 함수가 되려면 함수 밖의 값을 건드려선 안된다
-        int baseNumber = 10;
+        UnaryOperator<Integer> plus10 = (number) -> number + 10;
+        UnaryOperator<Integer> multiply2 = (number) -> number * 2;
 
-        RunSomething runSomething = number -> number + baseNumber;
+        Function<Integer, Integer> plus10AndThenMultiply2 = plus10.andThen(multiply2);
+        System.out.println("plus10AndThenMultiply2.apply(2) = " + plus10AndThenMultiply2.apply(2));
     }
 }
