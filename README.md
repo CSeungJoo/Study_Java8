@@ -59,3 +59,129 @@
 ### BinaryOperator<T>
 >1. BiFunction(T, U, R)의 특수 형, 동일한 타입의 입력값 두개를 받아 리턴하는 함수 인터페이스
 >   - ex(BiFunction<Integer, Integer> -> BinaryOperator<Integer>)
+
+## 람다 표현식
+
+### 람다
+>- (인자 리스트) -> (바디)
+
+### 인자 리스트
+>- 인자가 없을때 ()
+>  - ```java
+>    () -> System.out.println("Hello World");
+>- 인자가 한개일 때 (one) 또는 one
+>  - ```java
+>    (one) -> System.out.println("Hello World"+ one);
+>- 인자가 여러개 일 때 (one, two)
+>  - ```java
+>    (one, two) -> System.out.println("Hello World"+ one + two);
+>- 인자의 타입은 생략 가능, 컴파일러가 추론(infer)하지만 명시할 수도 있다. (Integer one, Integer two)
+>  - ```java
+>    (Integer one, Integer two) -> System.out.println("Hello World"+ one + two);
+
+## 바디
+>- 화살표 오른쪽에 함수 본문을 정의한다
+>- ```java
+>  () -> System.out.println("Hello World");
+>- 여러 줄인 경우에 {}를 사용해서 묶는다.
+>- ```java
+>  () -> {
+>     System.out.println("Hello World1");
+>     System.out.println("Hello World2");
+>  }
+
+### 변수 캡쳐 (Variable Capture)
+>- 로컬 변수 캡쳐
+>  - final 이거나 effective final(사실상 final) 인 경우에만 참조할 수 있다.
+>  - 그렇지 않을 경우 concurrency(동시성) 문제가 생길 수 있어서 컴파일
+>- effective final(사실상 final)
+>  - 자바 8 부터 지원하는 기능으로 "사실상" final 인 변수(final 키워드가 없지만 값 변경이 일어나지 않는 변수)
+>  - final 키워드를 사용하지 않은 변수를 익명 클래스 구현체 또는 람다에서 참조할 수 있다.
+>    - ```java
+>      public class Foo {
+>            public static void main(String[] args) {
+>            Foo foo = new Foo();
+>            foo.run();
+>        }
+>
+>      private void run() {
+>            int baseNumber = 10;
+>
+>            // 로컬 클래스
+>            class LocalClass {
+>                void printBaseNumber() {
+>                    System.out.println(baseNumber);
+>                }
+>            }
+>
+>            // 익명 클래스
+>            Consumer<Integer> integerConsumer = new Consumer<Integer>() {
+>                @Override
+>                public void accept(Integer integer) {
+>                    System.out.println(baseNumber);
+>                }
+>            };
+>
+>            // 람다
+>            IntConsumer printInt = (number) -> {
+>                System.out.println(number + baseNumber);
+>            };
+>        }
+>      }
+>- 익명 클래스 구현체와 달리 '쉐도윙'하지 않는다.
+>  - 익명 클래스는 새로 스콥을 만들지만, 람다는 람다를 감싸고 있는 스콥과 같다
+   >    - ```java
+>         public class Foo {
+>            public static void main(String[] args) {
+>            Foo foo = new Foo();
+>            foo.run();
+>        }
+>
+>         private void run() {
+>            int baseNumber = 10;
+>
+>            // 로컬 클래스
+>            class LocalClass {
+>                void printBaseNumber() {
+>                    System.out.println(baseNumber);
+>                }
+>            }
+>
+>            // 익명 클래스
+>            Consumer<Integer> integerConsumer = new Consumer<Integer>() {
+>                // new scope
+>                // int baseNumber = 12; = ok
+>                @Override
+>                public void accept(Integer integer) {
+>                    System.out.println(baseNumber);
+>                }
+>            };
+>
+>            // 람다
+>            IntConsumer printInt = (number) -> {
+>                // int baseNumer = 10; = error 
+>                // run() 과 동일 스코프
+>                System.out.println(number + baseNumber);
+>            };
+>           }
+>         }
+## 메소드 레퍼런스
+
+### 스태틱 메소드 참조
+>- 타입::스태틱 메소드
+>  - ex(UnaryOperator<String> hi = Greeting::hi;)
+
+### 특정 객체의 인스턴스 메소드 참조
+>- 객체 레퍼런스::인스턴스 메소드
+>  - ex(greeting::hello;, greeting::getName;) 
+
+### 임의 객체의 인스턴스 메소드 참조
+>- 타입::인스턴스 메소드
+>  - ex
+>    - ```java
+>      String[] names = {"keesun", "whiteship", "toby"};
+>      Arrays.sort(names, String::compareToIgnoreCase);
+
+### 생성자 참조
+>- 타입::new
+>  - ex(Supplier<Greeting> newGreeting = Greeting::new;)
