@@ -1,6 +1,8 @@
 # Study_Java8
 백기선님의 더 자바, java 8의 강의의 공부 기록입니다.
 
+# 함수형 인터페이스와 람다
+
 ## 함수형 인터페이스와 람다 표현식 소개
 
 ### 함수형 인터페이스(Single Abstract Method)
@@ -100,8 +102,8 @@
 >    - ```java
 >      public class Foo {
 >            public static void main(String[] args) {
->            Foo foo = new Foo();
->            foo.run();
+>            Foo fooClass = new Foo();
+>            fooClass.run();
 >        }
 >
 >      private void run() {
@@ -133,8 +135,8 @@
    >    - ```java
 >         public class Foo {
 >            public static void main(String[] args) {
->            Foo foo = new Foo();
->            foo.run();
+>            Foo fooClass = new Foo();
+>            fooClass.run();
 >        }
 >
 >         private void run() {
@@ -185,3 +187,27 @@
 ### 생성자 참조
 >- 타입::new
 >  - ex(Supplier<Greeting> newGreeting = Greeting::new;)
+
+# 인터페이스의 변화
+
+## 인터페이스 기본 메소드와 스태틱 메소드
+
+### 기본 메소드
+>- 인터페이스에 메소드 선언이 아니라 구현체를 제공하는 방법
+>  - 이미 구현된 메소드를 제공
+>- 해당 인터페이스를 구현한 클래스를 깨트리지 않고 새 기능을 추가할 수 있다.
+>  - 모든 구현체에 구현하지 않아도 된다. 
+>- 기본 메소드는 구현체가 모르게 추가된 기능으로 그만큼 리스크가 있다.
+>  - 기본 메소드로 선언한 것이 구현체에 존재하는 경우 원치 않는 동작 변경이 있을수 있다.
+>- Object가 제공하는 기능(equals, hasCode)는 기본 메소드로 제공할 수 없다.
+>  - ex(default void equals() {} 에러는 없지만 사용이 불가능함)
+>- 
+>- 본인이 수정할 수 있는 인터페이스에만 기본 메소드를 제공할 수 있다.
+>  - JpaRepository 같은 인터페이스는 수정 불가능
+>- 인터페이스를 상속받는 인터페이스에서 다시 추상 메소드로 변경할 수 있다.
+>- 인터페이스 구현체가 재정의 할 수도 있다.
+>  - 오버라이딩이 가능하다
+
+## 스태틱 메소드
+>- 해당 타입 관련 헬퍼 또는 유틸리티 메소드를 제공할 때 인터페이스에 스태틱 메소드를 제공할 수 있다.
+>  - 인스턴스를 생성하지 않고 메소드를 사용할수 있다.

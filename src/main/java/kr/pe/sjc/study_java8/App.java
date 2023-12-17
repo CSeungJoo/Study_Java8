@@ -11,8 +11,9 @@ import java.util.Scanner;
 public class App {
 
     public static void main(String[] args) {
-        String[] names = {"keesun", "whietship", "toby"};
-        Arrays.sort(names, String::compareToIgnoreCase);
-        System.out.println(Arrays.toString(names));
+        Foo foo = new DefaultFoo("seungjoo");
+        foo.printName();
+        foo.printNameUpperCase();
+        Foo.printAnything();
     }
 }
