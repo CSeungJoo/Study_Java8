@@ -211,3 +211,29 @@
 ## 스태틱 메소드
 >- 해당 타입 관련 헬퍼 또는 유틸리티 메소드를 제공할 때 인터페이스에 스태틱 메소드를 제공할 수 있다.
 >  - 인스턴스를 생성하지 않고 메소드를 사용할수 있다.
+
+## 자바 8 기본 메소드와 스태틱 메소드
+
+### Iterable의 기본 메소드
+>- forEach()
+>  - ex(name.forEach(System.out::println))
+>- spliterator()
+
+### Collection의 기본 메소드
+>- stream() / parallelStream() 
+>  - 다음 강의에서 설명
+>- removeIf(Predicate)
+>  - ex(name.removeIf(s -> s.startWith("K"))
+>- spliterator()
+
+### Comparator의 기본 메소드 및 스태틱 메소드
+>- reversed()
+>  - 정렬 규칙 반대로 변경
+>- thenComparing()
+>  - 정렬 규칙 추가
+>- static reverseOrder() / naturalOrder()
+>  - 내림차순 정렬 / 오름차순 정렬
+>- static nullsFirst() / nullsLast()
+>  - null 데이터 맨 앞에 정렬 / null 데이터 맨 뒤에 정렬 (정렬 null 처리)
+>- static comparing()
+>  - 정렬 규칙을 람다현으로 구현 가능
