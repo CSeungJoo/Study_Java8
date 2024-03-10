@@ -1,28 +1,69 @@
 package kr.pe.sjc.study_java8;
 
+import org.apache.juli.OneLineFormatter;
+
 import java.util.*;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class App {
 
     public static void main(String[] args) {
-        List<String> names = new ArrayList<>();
-        names.add("Keesun");
-        names.add("Whiteship");
-        names.add("Toby");
-        names.add("Foo");
-        names.add("CSeungJoo");
+        List<OnlineClass> springClasses = new ArrayList<>();
+        springClasses.add(new OnlineClass(1, "spring_1", true));
+        springClasses.add(new OnlineClass(2, "spring_2", true));
+        springClasses.add(new OnlineClass(3, "spring_3", false));
+        springClasses.add(new OnlineClass(4, "spring_4", false));
+        springClasses.add(new OnlineClass(5, "api", false));
 
-        List<String> collect = names.stream()
-                .map(s -> {
-                    System.out.println(s +" "+ Thread.currentThread().getName());
-                    return s.toUpperCase();
-                }).collect(Collectors.toList());
-        names.forEach(System.out::println);
+        System.out.println("spring 으로 시작하는 수업");
+        springClasses.stream()
+                .filter(e -> e.getTitle().startsWith("spring"))
+                .forEach(e -> System.out.println(e.getId()));
+
+        System.out.println("close 되지 않은 수업");
+        springClasses.stream()
+                .filter(Predicate.not(OnlineClass::isClosed))
+                .forEach(e -> System.out.println(e.getId()));
+
+        System.out.println("수업 이름만 모아서 스트림 만들기");
+        springClasses.stream()
+                .map(e -> e.getTitle())
+                .forEach(System.out::println);
+
+        List<OnlineClass> javaClasses = new ArrayList<>();
+        javaClasses.add(new OnlineClass(6, "The Java Test", true));
+        javaClasses.add(new OnlineClass(6, "The Java COde manipulation", true));
+        javaClasses.add(new OnlineClass(6, "The Java, 8 to 11", false));
+
+        List<List<OnlineClass>> CSeungJooEvent = new ArrayList<>();
+
+        CSeungJooEvent.add(springClasses);
+        CSeungJooEvent.add(javaClasses);
+
+        System.out.println("두 수업 목록에 들어있는 모든 수업 아이디 출력");
+        CSeungJooEvent.stream()
+                .flatMap(Collection::stream)
+                .forEach(e -> System.out.println(e.getId()));
+
+        System.out.println("10부터 1씩 증가하는 무제한 스트림 중에서 앞에 10개 빼고 최대 10개 까지만");
+        Stream.iterate(10, i -> i + 1)
+                .skip(10)
+                .limit(10)
+                .forEach(System.out::println);
+
+        System.out.println("자바 수업 중에 Test가 들어있는 수업이 있는지 확인");
+        boolean test = javaClasses.stream()
+                .anyMatch(e -> e.getTitle().contains("Test"));
+
+        System.out.println(test);
+
+        System.out.println("스프링 수업 중에 제목에 spring이 들어간 것만 모아서 List로 만들기");
+        List<String> spring = springClasses.stream()
+                .filter(e -> e.getTitle().contains("spring"))
+                .map(OnlineClass::getTitle)
+                .collect(Collectors.toList());
+        spring.forEach(System.out::println);
     }
 }
