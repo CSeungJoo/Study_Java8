@@ -270,3 +270,34 @@
 ### 종료 오퍼레이션
 >- Stream을 리턴하지 않는다.
 >  - 스트림 파이프라인이 끝이 났다.
+
+## 스트림 API
+
+### 걸러내기
+>- Filter(Predicate)
+>- 예) 이름이 3글자 이상인 데이터만 새로운 스트림으로
+>  - Filter(e -> e.getName().length >= 3)
+
+### 변경하기
+>- Map(Function) 또는 FlatMap(Function)
+>- 예) 각각의 Post 인스턴스에서 String title만 새로운 스트림으로
+>  - Map(Post::getTitle) & Map(post -> post.getTitle)
+>- 예) List<Stream<String>>을 String의 스트림으로
+>  - FlatMap(Collection::stream)
+
+### 생성하기
+>- generate(Supplier) 또는 iterate(T seed, UnaryOperator)
+>- 예) 10부터 1씩 증가하는 무제한 숫자 스트림
+>  - ```java
+>    Stream.iterate(10, i -> i + 1)
+>            .skip(10)
+>            .limit(10)
+>            .forEach(System.out::println);
+>- 예) 랜덤 int 무제한 스트림
+
+### 제한하기
+>- limit(long) 또는 skip(long)
+>- 예) 최대 5개의 요소가 담긴 스트림을 리턴한다.
+>  - limit(5)
+>- 예) 앞에서 3개를 뺀 나머지 스트림을 리턴한다.
+>  - skip(3)
