@@ -301,3 +301,21 @@
 >  - limit(5)
 >- 예) 앞에서 3개를 뺀 나머지 스트림을 리턴한다.
 >  - skip(3)
+
+# Optional
+
+## Optional 소개
+
+### Optional
+>- 오직 값 한 개가 들어있을 수도 없을 수도 있는 컨테이너
+>  - 관측하기 전까진 알수 없다.
+
+### 주의할 것
+>- 리턴값으로만 쓰기를 권장한다(메소드 매개변수 타입, 맵의 키 타임, 인스턴스 필드 타입으로 쓰지 말자.)
+>  - 메소드 매개변수나 맵의 키 타입에는 null값이 들어와서는 안된다.
+>- Optional을 리턴하는 메소드에서 null을 리턴하지 말자.
+>  - Optional을 사용하는 이유가 없다. 차라리 Optional.empty()를 리턴하자.
+>- 프리미티브 타입용 Optional은 따로 있다. OptionalInt, OptionalLong
+>  - Optional을 사용할경우 박싱, 언박싱이 일어나 성능에 영향을 준다.
+>- Collection, Map, Stream Array, Optional은 Optional로 감싸지 말것
+>  - 그 자체로 이미 null체크를 할수 있다.
