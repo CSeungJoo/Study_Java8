@@ -319,3 +319,46 @@
 >  - Optional을 사용할경우 박싱, 언박싱이 일어나 성능에 영향을 준다.
 >- Collection, Map, Stream Array, Optional은 Optional로 감싸지 말것
 >  - 그 자체로 이미 null체크를 할수 있다.
+
+
+## Optional
+
+### Optional 만들기
+>- Optional.of()
+>- Optional.ofNullable()
+>- Optional.empty()
+
+### Optional에 값이 있는지 없는지 확인하기
+>- isPresent()
+>  - 예) if(optOnlineClass.isPresent)
+>- isEmpty() (자바 11부터 제공)
+>  - 예) if(optOnlineClass.isEmpty)
+
+### Optional에 있는 값 가져오기
+>- get()
+>  - Optional이 비었을경우 NoSuchElementException 발생
+
+### Optional에 값이 있는 경우에 그 값을 가지고 ~~를 하라.
+>- ifPresent(Consumer)
+>  - 예) .ifPresent(e -> System.out.println(e.getId);
+
+### Optional에 값이 있으면 가져오고 없는 경우에 ~~를 리턴하라.
+>- orElse(T)
+>  - 예) .orElse(emptyOnlineClass);
+
+### Optional에 값이 있으면 가져오고 없는 경우에 ~~를 하라
+>- orElseGet(Supplier)
+>  - 예) .orElseGet(new OnlineClass());
+
+### Optional에 값이 없으면 에러를 던져라
+>- orElseThrow()
+>  - 예) .orElseThrow(() -> new NoSuchElementException());
+
+### Optional에 들어있는걸 럴러내기
+>- Optional filter(Predicate)
+>  - 예) .filter(e -> e.getId > 5)
+
+### Optional에 들어있는 값 변환하기
+>- Optional map(Function)
+>- Optional flatMap(Function): Optional 안에 들어있는 인스턴스가 Optional인 경우에 사용하면 편리하다.
+>  - 값이 Optional로 이중포장 되있을경우 포장 하나를 없에 준다.
